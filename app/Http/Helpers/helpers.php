@@ -25,6 +25,10 @@ function averageOfTweetsPerUser(){
 	$countTweet = Tweet::count();
 	$countUsers = User::count();
 
-	$average = $countTweet / $countUsers;
-	return $average;
+	if($countUsers > 0){
+		$average = $countTweet / $countUsers;
+		return $average;
+	}else{
+		return "No Data Yet";
+	}
 }
