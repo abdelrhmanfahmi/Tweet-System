@@ -29,5 +29,8 @@
         @endforeach
       </tbody>
     </table>
+    <div class="text-center">
+        <h5 class="text-center">Average Number Of Tweets Per Users : <span class="text-danger">{{ averageOfTweetsPerUser() }}</span></h5>
+    </div>
   </body>
 </html>
