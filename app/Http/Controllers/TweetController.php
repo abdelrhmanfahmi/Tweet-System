@@ -34,12 +34,12 @@ class TweetController extends Controller
     }
 
     public function indexPdf(){
-        $users = User::all();
+        $users = $this->service->getUsers();
         return view('welcome' , compact('users'));
     }
 
     public function createPDF(){
-        $data = User::all();
+        $data = $this->service->getUsers();
 
         view()->share('users',$data);
 

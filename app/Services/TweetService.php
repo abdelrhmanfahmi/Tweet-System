@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Following;
 use App\Repositories\FollowingRepository;
 use App\Repositories\TweetRepository;
+use App\Repositories\UserRepository;
 use App\User;
 
 class TweetService extends BaseService
@@ -42,4 +43,7 @@ class TweetService extends BaseService
         }
     }
 
+    public function getUsers(){
+        return app(UserRepository::class)->all();
+    }
 }
