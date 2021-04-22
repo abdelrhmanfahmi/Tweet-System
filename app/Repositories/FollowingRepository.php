@@ -12,7 +12,8 @@ class FollowingRepository extends BaseRepository
         parent::__construct($follow);
     }
 
-    public function checkFollowing($id){
-        return $this->model->where('follow_to' , '=' , $id)->first(); 
+    public function checkFollowing($id)
+    {
+        return $this->model->where('follow_to' , '=' , $id)->first();
     }
 }

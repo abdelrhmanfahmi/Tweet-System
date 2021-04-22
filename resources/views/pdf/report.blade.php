@@ -15,22 +15,12 @@
         <td>Name</td>
         <td>Email</td>
         <td>DateOfBirth</td>
-        <td>TweetNumber</td>
       </tr>
       </thead>
       <tbody>
-        @foreach ($users as $data)
-        <tr>
-            <td>{{ $data->name }}</td>
-            <td>{{ $data->email }}</td>
-            <td>{{ $data->dateOfBirth }}</td>
-            <td>{{ countTweetForUser($data->id) }}</td>
-        </tr>
-        @endforeach
+       
       </tbody>
     </table>
-    <div class="text-center">
-        <h5 class="text-center">Average Number Of Tweets Per Users : <span class="text-danger">{{ averageOfTweetsPerUser() }}</span></h5>
-    </div>
+    
   </body>
 </html>

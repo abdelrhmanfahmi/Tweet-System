@@ -27,8 +27,8 @@ class SignUpRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string',
-            'dateOfBirth' => 'required',
-            'image' => 'required|image'
+            'date_of_birth' => 'required|date',
+            'image' => 'required|image|mimes:png,jpg,jpeg'
         ];
     }
 }

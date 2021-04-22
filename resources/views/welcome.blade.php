@@ -9,49 +9,7 @@
     </head>
     <body>
 
-    <div class="container mt-5">
-        <h2 class="text-center mb-3">Report For Tweeter's Users</h2>
-
-        <div class="d-flex justify-content-end mb-4">
-            <a class="btn btn-primary" href="{{ URL::to('/pdf/report') }}">Download PDF</a>
-        </div>
-
-        <table class="table table-bordered mb-5">
-            <thead>
-                <tr class="table-danger">
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">DateOfBirth</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">TweetNumber</th>
-                </tr>
-            </thead>
-            <tbody>
-            @if(count($users) > 0)
-                @foreach($users as $key => $value)
-                <tr>
-                    <th scope="row">{{$key+1}}</th>
-                    <td>{{ $value->name }}</td>
-                    <td>{{ $value->email }}</td>
-                    <td>{{ $value->dateOfBirth }}</td>
-                    <td>
-                        <img src="{{ asset('uploads/' . $value->image) }}" width="100px" height="100px" alt="">
-                    </td>
-                    <td>{{ countTweetForUser($value->id) }}</td>
-                </tr>
-                @endforeach
-                @else
-                <tr>
-                    <td colspan="6" class="text-center">No Data Found</td>
-                </tr>
-                @endif
-            </tbody>
-        </table>
-        <div class="text-center">
-            <h5 class="text-center">Average Number Of Tweets Per Users : <span class="text-danger">{{ averageOfTweetsPerUser() }}</span></h5>
-        </div>
-    </div>
+    <h1 class="text-danger text-center">LARAVEL</h1>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

@@ -13,5 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'TweetController@indexPdf');
-Route::get('/pdf/report','TweetController@createPDF');
+Route::get('/', function(){
+    return view('welcome');
+});

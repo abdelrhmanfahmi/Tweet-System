@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Tweet;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
@@ -13,15 +14,39 @@ class UserRepository extends BaseRepository
         parent::__construct($user);
     }
 
-    public function store($request): Model
+    public function all()
     {
-        return $this->model->create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'dateOfBirth' => $request->get('dateOfBirth'),
-            'image' => uploadNow('image' , $request),
+        $users = $this->model->all();
+        foreach($users as $user){
+            $user->setAttribute('tweet_number' , count($user->tweets));
+        }
+        return $users;
+    }
+
+    public function store(array $attribute): Model
+    {
+        $user =  $this->model->create([
+            'name' => $attribute['name'],
+            'email' => $attribute['email'],
+            'password' => Hash::make($attribute['password']),
+            'date_of_birth' => $attribute['date_of_birth'],
+            'image' => $attribute['image'],
         ]);
+        
+        return $user;
+    }
+
+    public function averageTweets()
+    {
+        $userCount = count($this->model->all());
+        $tweetCount = Tweet::count();
+
+        if($userCount > 0){
+            $average = $tweetCount / $userCount;
+            return $average;
+        }else{
+            return 0;
+        }
     }
 
 }

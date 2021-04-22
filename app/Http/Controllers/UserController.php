@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class UserController extends Controller
 {
@@ -28,7 +30,7 @@ class UserController extends Controller
     public function login(LoginRequest $request){
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-            return response()->json(['message' => 'You Entered Email Or Password Incoorect 5 Times ,Please Wait 30 minutes And Try Again']);
+            return response()->json(['message' => 'You Entered Email Or Password Incoorect 5 Times ,Please Wait 30 minutes And Try Again'], 400);
         }
 
         $credentials = $request->only('email', 'password');
@@ -45,8 +47,27 @@ class UserController extends Controller
     }
 
     public function signup(SignUpRequest $request){
-        $user = $this->service->store($request);
-        $token = JWTAuth::fromUser($user);
-        return response()->json(compact('user','token'),201);
+        $token = $this->service->store($request->all());
+        return response()->json(compact('token'),201);
+    }
+
+    public function showInfoReport(){
+        $user = $this->service->getUsers();
+        $average = $this->service->getAverage();
+        return response()->json(['users' => $user , 'averageTweets' => $average]);
+    }
+
+    public function downloadPdf(){
+        $data = $this->service->getUsers();
+
+        view()->share('users',$data);
+
+        $pdf = PDF::loadView('pdf.report', $data);
+
+        return $pdf->download('report.pdf');
+
+        // Storage::put('public/pdf/invoice.pdf', $pdf->output());
+
+        // return response()->download('public/pdf/invoice.pdf');
     }
 }

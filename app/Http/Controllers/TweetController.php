@@ -25,26 +25,6 @@ class TweetController extends Controller
 
         $this->service->store($request->all());
 
-        return response()->json([], Response::HTTP_CREATED);
-    }
-
-    public function follow($id){
-        $this->service->follow($id);
-        return response()->json(['message' => 'Now You Can See His Updates'] , Response::HTTP_OK);
-    }
-
-    public function indexPdf(){
-        $users = $this->service->getUsers();
-        return view('welcome' , compact('users'));
-    }
-
-    public function createPDF(){
-        $data = $this->service->getUsers();
-
-        view()->share('users',$data);
-
-        $pdf = PDF::loadView('pdf.report', $data);
-  
-        return $pdf->download('report.pdf');
+        return response()->json(['message' => 'Tweet Created Successfully'], 200);
     }
 }

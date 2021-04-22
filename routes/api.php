@@ -22,6 +22,9 @@ Route::post('signup', 'UserController@signup');
 Route::post('login', 'UserController@login');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::post('/store/tweet' , 'TweetController@createTweet');
-    Route::post('/follow/user/{id}' , 'TweetController@follow');
+    Route::post('/tweets' , 'TweetController@createTweet');
+    Route::post('/follows/{email}' , 'FollowingController@followUser');
 });
+
+Route::get('/report' , 'UserController@showInfoReport');
+Route::get('/report/download' , 'UserController@downloadPdf');
