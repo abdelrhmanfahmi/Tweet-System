@@ -23,6 +23,7 @@ class TweetController extends Controller
     
     public function createTweet(TweetRequest $request){
 
+        $request['user_id'] = auth()->user()->id;
         $this->service->store($request->all());
 
         return response()->json(['message' => 'Tweet Created Successfully'], 200);

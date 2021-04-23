@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Services\PdfService;
 use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -21,10 +23,12 @@ class UserController extends Controller
     protected $maxAttempts = 5;
     protected $decayMinutes = 30;
     public $service;
+    public $pdfRepo;
 
-    public function __construct(UserService $service)
+    public function __construct(UserService $service , PdfService $pdfRepo)
     {
         $this->service = $service;
+        $this->pdfRepo = $pdfRepo;
     }
 
     public function login(LoginRequest $request){
@@ -50,24 +54,14 @@ class UserController extends Controller
         $token = $this->service->store($request->all());
         return response()->json(compact('token'),201);
     }
-
-    public function showInfoReport(){
-        $user = $this->service->getUsers();
+     
+    public function Report(){
+        $users = $this->service->getUsers();
         $average = $this->service->getAverage();
-        return response()->json(['users' => $user , 'averageTweets' => $average]);
-    }
 
-    public function downloadPdf(){
-        $data = $this->service->getUsers();
+        $pdf = PDF::loadView('pdf.report', ['users' => $users , 'average' => $average]);
+        
+        return $this->pdfRepo->pdfReport($pdf);
 
-        view()->share('users',$data);
-
-        $pdf = PDF::loadView('pdf.report', $data);
-
-        return $pdf->download('report.pdf');
-
-        // Storage::put('public/pdf/invoice.pdf', $pdf->output());
-
-        // return response()->download('public/pdf/invoice.pdf');
     }
 }

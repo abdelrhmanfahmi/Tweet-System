@@ -26,5 +26,4 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/follows/{email}' , 'FollowingController@followUser');
 });
 
-Route::get('/report' , 'UserController@showInfoReport');
-Route::get('/report/download' , 'UserController@downloadPdf');
+Route::get('/report' , 'UserController@Report');
